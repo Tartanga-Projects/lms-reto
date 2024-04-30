@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- <?xml-model href="dataschema.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?> -->
+<!-- <?xml-model href="dataschema.xsd" type="application/xml"
+schematypens="http://www.w3.org/2001/XMLSchema"?> -->
 <datos>
     <dato>
         <nombre>Juan</nombre>
@@ -18,5 +19,11 @@
         <apellido>Rodríguez</apellido>
         <edad>40</edad>
         <correo>carlos@example.com</correo>
+    </dato>
+    <dato>
+        <nombre>Javier</nombre>
+        <apellido>Martinez</apellido>
+        <edad>45</edad>
+        <correo>correo@correo.com</correo>
     </dato>
 </datos>
