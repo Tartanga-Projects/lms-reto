@@ -1,6 +1,23 @@
 <?php
     if($_SERVER['REQUEST_METHOD'] === 'GET') {
+        $rutaArchivoXml = "../DB/data.xml";
+        $rutaArchivoXslt = "../transform/data.xsl";
 
+        if($rutaArchivoXml){
+            $xml=new DOMDocument();
+            $xml->load($rutaArchivoXml);
+
+            if($rutaArchivoXslt){
+                $xsl=new DOMDocument();
+                $xsl->load($rutaArchivoXslt);
+
+                $proc=new XSLTProcessor();
+                $proc->importStylesheet($xsl);
+                $html= $proc->transformToXml($xml);
+
+                echo $html;
+            }
+        }
     } else if($_SERVER['REQUEST_METHOD'] === 'POST') {
         if(isset($_POST['action'])) {
             $action = $_POST['action'];
@@ -10,10 +27,10 @@
                     altaDato();
                     break;
                 case 'modificar':
-                    modificarDato();
+                    //modificarDato();
                     break;
                 case 'eliminar':
-                    eliminarDato();
+                    //eliminarDato();
                     break;
                 default:
                 echo 'Papi anda perdido';
