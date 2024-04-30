@@ -7,10 +7,46 @@
   <link rel="stylesheet" href="assets/css/style.css">
   <script defer src="assets/js/index.js"></script>
   <title> RETO DE LMS | PRUEBAS </title>
+
+  <!-- JS Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body>
+  <section class="content">
+    <!-- Navigation Sub-item -->
+    <nav class="flex flex-row justify-center items-center p-4 bg-black ">
+      <button class="bg-gray-500 border p-4 mr-2">Modificar</button>
+      <button class="bg-gray-500 border p-4">Eliminar</button>
+    </nav>
 
+    <section id="alta" class="p-4">
+      <form method="post" class="max-w-md mx-auto bg-gray-500 shadow-md rounded px-8 pt-6 pb-8 mb-4">
+          <div class="mb-4">
+              <label for="Nombre" class="block text-white text-sm font-bold mb-2">Nombre</label>
+              <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline" name="Nombre" id="Nombre" required />
+          </div>
+          <div class="mb-4">
+              <label for="Apellido" class="block text-white text-sm font-bold mb-2">Apellido</label>
+              <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline" name="Apellido" id="Apellido" required />
+          </div>
+          <div class="mb-4">
+              <label for="Edad" class="block text-white text-sm font-bold mb-2">Edad</label>
+              <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline" name="Edad" id="Edad" required />
+          </div>
+          <div class="mb-4">
+              <label for="Correo" class="block text-white text-sm font-bold mb-2">Correo</label>
+              <input type="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline" name="Correo" id="Correo" required />
+          </div>
+          <div class="mb-4">
+            <button type="submit" class="shadow appearance-none border rounded w-full py-2 px-3 text-white focus:outline-none focus:shadow-outline" id="altaDato" name="altaDato">Dar de alta dato</button>
+          </div>
+      </form>
+  </section>
+
+  <section id="respuesta" class="flex flex-row justify-center">
+    
+  </section>
 </body>
 
 </html>
