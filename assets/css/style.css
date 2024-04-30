@@ -1,0 +1,15 @@
+:root {
+    color-scheme: light dark;
+}
+
+thead,
+tbody,
+td {
+    border-collapse: collapse;
+    border: 1px solid white
+}
+
+td {
+    padding: 8px;
+    text-align: center;
+}
