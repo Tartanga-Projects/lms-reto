@@ -22,6 +22,7 @@ darAlta.addEventListener('click', (event) => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status === 200) {
                 console.log('Datos guardados correctamente');
+                update();
             } else if (xhr.status === 404) {
                 console.log('Página no encontrada');
             } else {
@@ -39,6 +40,19 @@ function borrado() {
     document.getElementById('Apellido').value = '';
     document.getElementById('Edad').value = '';
     document.getElementById('Correo').value = '';
+}
+
+//Actualizar la pagina tras enviar el formulario
+function update() {
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', 'http://localhost/lms-reto/server/server.php', true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            console.log(xhr.responseText)
+            document.getElementById('respuesta').innerHTML = xhr.responseText;
+        }
+    };
+    xhr.send();
 }
 
 
