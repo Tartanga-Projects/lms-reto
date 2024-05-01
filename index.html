@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="assets/css/style.css">
   <script defer src="assets/js/index.js"></script>
-  <script defer src="assets/js/insercion.js"></script>
   <title> RETO DE LMS | PRUEBAS </title>
 
   <!-- JS Tailwind -->
@@ -23,29 +22,50 @@
 
     <section id="alta" class="p-4">
       <form method="post" class="max-w-md mx-auto bg-gray-500 shadow-md rounded px-8 pt-6 pb-8 mb-4">
-          <div class="mb-4">
-              <label for="Nombre" class="block text-white text-sm font-bold mb-2">Nombre</label>
-              <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline" name="Nombre" id="Nombre" required />
-          </div>
-          <div class="mb-4">
-              <label for="Apellido" class="block text-white text-sm font-bold mb-2">Apellido</label>
-              <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline" name="Apellido" id="Apellido" required />
-          </div>
-          <div class="mb-4">
-              <label for="Edad" class="block text-white text-sm font-bold mb-2">Edad</label>
-              <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline" name="Edad" id="Edad" required />
-          </div>
-          <div class="mb-4">
-              <label for="Correo" class="block text-white text-sm font-bold mb-2">Correo</label>
-              <input type="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline" name="Correo" id="Correo" required />
-          </div>
-          <div class="mb-4">
-            <button type="submit" class="shadow appearance-none border rounded w-full py-2 px-3 text-white focus:outline-none focus:shadow-outline" id="altaDato" name="altaDato">Dar de alta dato</button>
-          </div>
+        <div class="mb-4">
+          <label for="Nombre" class="block text-white text-sm font-bold mb-2">Nombre</label>
+          <input type="text"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
+            name="Nombre" id="Nombre" required />
+        </div>
+        <div class="mb-4">
+          <label for="Apellido" class="block text-white text-sm font-bold mb-2">Apellido</label>
+          <input type="text"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
+            name="Apellido" id="Apellido" required />
+        </div>
+        <div class="mb-4">
+          <label for="Edad" class="block text-white text-sm font-bold mb-2">Edad</label>
+          <input type="text"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
+            name="Edad" id="Edad" required />
+        </div>
+        <div class="mb-4">
+          <label for="Correo" class="block text-white text-sm font-bold mb-2">Correo</label>
+          <input type="email"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
+            name="Correo" id="Correo" required />
+        </div>
+        <div class="mb-4">
+          <button type="submit"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-white focus:outline-none focus:shadow-outline"
+            id="altaDato" name="altaDato">Dar de alta dato</button>
+        </div>
       </form>
+    </section>
+    <section id="respuesta" class="flex flex-row justify-center"></section>
   </section>
-
-  <section id="respuesta" class="flex flex-row justify-center"></section>
+  <script>
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', 'http://localhost/lms-reto/server/server.php', true);
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        console.log(xhr.responseText)
+        document.getElementById('respuesta').innerHTML = xhr.responseText;
+      }
+    };
+    xhr.send();
+  </script>
 </body>
 
 </html>
