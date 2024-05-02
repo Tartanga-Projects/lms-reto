@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 altaDato();
                 break;
             case 'modificar':
-                //modificarDato();
+                modificarDato();
                 break;
             case 'eliminar':
                 //eliminarDato();
@@ -67,5 +67,31 @@ function altaDato()
         $xml->asXML($cargarXml);
     } else {
         echo 'No se recibieron todos los campos del formulario.';
+    }
+}
+
+function modificarDato()
+{
+    if (isset($_POST['Valor'])) {
+        $cargarXml = "../DB/data.xml";
+        $nombreMod = $_POST['Valor'];
+        $xml = simplexml_load_file($cargarXml);
+        $resultado = $xml->xpath("//dato[nombre='$nombreMod']");
+        if ($resultado) {
+            // Convertir el resultado a un array asociativo
+            $data = [
+                'nombre' => (string) $resultado[0]->nombre,
+                'apellido' => (string) $resultado[0]->apellido,
+                'edad' => (string) $resultado[0]->edad,
+                'correo' => (string) $resultado[0]->correo
+            ];
+            // Devolver los datos como JSON
+            echo json_encode($data);
+        } else {
+            // Si no se encontró el dato, devolver un mensaje de error
+            echo json_encode(['error' => 'No se encontró ningún dato para el nombre proporcionado.']);
+        }
+    } else {
+        echo json_encode(['error' => 'No se recibieron todos los campos del formulario.']);
     }
 }

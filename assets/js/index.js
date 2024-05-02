@@ -1,37 +1,76 @@
 const darAlta = document.getElementById('altaDato');
+let modificar = document.getElementById('modificar');
+let nombreF = document.getElementById('Nombre');
+let apellidoF = document.getElementById('Apellido');
+let edadF = document.getElementById('Edad');
+let correoF = document.getElementById('Correo');
 
 // Alta de datos
 darAlta.addEventListener('click', (event) => {
     event.preventDefault()
-    const Nombre = document.getElementById('Nombre').value;
-    const Apellido = document.getElementById('Apellido').value;
-    const Edad = document.getElementById('Edad').value;
-    const Correo = document.getElementById('Correo').value;
 
-    let xhr = new XMLHttpRequest();
-    xhr.open('POST', 'http://localhost/lms-reto/server/server.php', true);
+    const nombre = nombreF.value;
+    console.log(nombre)
+    const apellido = apellidoF.value;
+    const edad = edadF.value;
+    const correo = correoF.value;
 
-    let formData = new FormData();
-    formData.append('Nombre', Nombre);
-    formData.append('Apellido', Apellido);
-    formData.append('Edad', Edad);
-    formData.append('Correo', Correo);
-    formData.append('action', 'alta');
+    if (nombre === '' && apellido === '' && edad === '' && correo === '') {
+        alert('rellena los campos')
+    } else {
+        let xhr = new XMLHttpRequest();
+        xhr.open('POST', 'http://localhost/lms-reto/server/server.php', true);
 
-    xhr.onreadystatechange = () => {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.status === 200) {
-                console.log('Datos guardados correctamente');
-                update();
-            } else if (xhr.status === 404) {
-                console.log('Página no encontrada');
-            } else {
-                console.log('Error en la solicitud' + xhr.status);
+        let formData = new FormData();
+        formData.append('Nombre', nombre);
+        formData.append('Apellido', apellido);
+        formData.append('Edad', edad);
+        formData.append('Correo', correo);
+        formData.append('action', 'alta');
+
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    console.log('Datos guardados correctamente');
+                    update();
+                } else if (xhr.status === 404) {
+                    console.log('Página no encontrada');
+                } else {
+                    console.log('Error en la solicitud' + xhr.status);
+                }
             }
         }
+        borrado();
+        xhr.send(formData);
     }
-    borrado();
-    xhr.send(formData);
+
+
+})
+
+modificar.addEventListener('click', (event) => {
+    event.preventDefault()
+    let valor = prompt("Introduce un nombre que quieras modificar: ");
+    let formData = new FormData()
+    formData.append('Valor', valor);
+    formData.append('action', 'modificar')
+    if (valor !== null) {
+        fetch('http://localhost/lms-reto/server/server.php', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('Nombre').value = data.nombre;
+                document.getElementById('Apellido').value = data.apellido;
+                document.getElementById('Edad').value = data.edad;
+                document.getElementById('Correo').value = data.correo;
+            })
+            .catch(error => {
+                console.error('Error: ', error)
+            })
+    } else {
+        console.log('el usuario cancela')
+    }
 })
 
 //Borrado de datos del formulario
