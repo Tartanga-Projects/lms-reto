@@ -4,7 +4,7 @@ require_once("BDConexion.php");
 
 try {
 
-    $rutaXq = "query.xq";
+    $rutaXq = "modificacion.xq";
     $fichero = fopen($rutaXq, "r"); // Abrimos el fichero $rutaXq en modo lectura "r"
     $xq = fread($fichero, filesize($rutaXq)); // Leemos el contenido del fichero y lo guardamos en la variable $xq
     fclose($fichero); // Cerramos el fichero
@@ -12,7 +12,7 @@ try {
     // create session
     $session = new Session();
     // open database
-    $session->execute("open RetoLMS"); // open y el nombre de la base de datos en el servidor BaseX
+    $session->execute("open PruebaReto"); // open y el nombre de la base de datos en el servidor BaseX
     // xquery
     $query = $session->query($xq);
 
