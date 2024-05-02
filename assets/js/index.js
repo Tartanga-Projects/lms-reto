@@ -47,10 +47,27 @@ darAlta.addEventListener('click', (event) => {
 
 })
 
-modificar.addEventListener('click', () => {
+modificar.addEventListener('click', (event) => {
+    event.preventDefault()
     let valor = prompt("Introduce un nombre que quieras modificar: ");
+    let formData = new FormData()
+    formData.append('Valor', valor);
+    formData.append('action', 'modificar')
     if (valor !== null) {
-        console.log(valor)
+        fetch('http://localhost/lms-reto/server/server.php', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('Nombre').value = data.nombre;
+                document.getElementById('Apellido').value = data.apellido;
+                document.getElementById('Edad').value = data.edad;
+                document.getElementById('Correo').value = data.correo;
+            })
+            .catch(error => {
+                console.error('Error: ', error)
+            })
     } else {
         console.log('el usuario cancela')
     }
