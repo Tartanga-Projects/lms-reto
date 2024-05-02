@@ -4,7 +4,7 @@ require_once("BDConexion.php");
 
 try {
 
-    $rutaXq = "modificacion.xq";
+    $rutaXq = "nombres.xq";
     $fichero = fopen($rutaXq, "r"); // Abrimos el fichero $rutaXq en modo lectura "r"
     $xq = fread($fichero, filesize($rutaXq)); // Leemos el contenido del fichero y lo guardamos en la variable $xq
     fclose($fichero); // Cerramos el fichero
