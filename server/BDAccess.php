@@ -1,31 +1,89 @@
-<?php
+<!DOCTYPE html>
+<html>
 
-require_once("BDConexion.php");
+<head>
+    <title>Consulta de datos</title>
+</head>
 
-try {
+<body>
+    <h1>ENUNCIADO</h1>
+    <p>
+        Este PHP va a conectar a BBDD.
+    </p>
 
-    $rutaXq = "nombres.xq";
-    $fichero = fopen($rutaXq, "r"); // Abrimos el fichero $rutaXq en modo lectura "r"
-    $xq = fread($fichero, filesize($rutaXq)); // Leemos el contenido del fichero y lo guardamos en la variable $xq
-    fclose($fichero); // Cerramos el fichero
+    <h1>RESULTADO</h1>
 
-    // create session
-    $session = new Session();
-    // open database
-    $session->execute("open PruebaReto"); // open y el nombre de la base de datos en el servidor BaseX
-    // xquery
-    $query = $session->query($xq);
+    <!-- Formulario para ingresar el parámetro "codigo" -->
+    <form action="" method="GET">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" placeholder="Mete el codigo" name="nombre">
+        <label for="apellido">Apellido:</label>
+        <input type="text" id="apellido" placeholder="Mete el codigo" name="apellido">
+        <label for="edad">Edad:</label>
+        <input type="text" id="edad" placeholder="Mete el codigo" name="edad">
+        <label for="correo">Correo:</label>
+        <input type="text" id="correo" placeholder="Mete el codigo" name="correo">
+        <input type="submit" value="Enviar">
+    </form><br />
 
-    // execute result
-    $result = $query->execute();
-    // close query
-    $query->close();
-    // close session
-    $session->close();
+    <?php
 
-    // Show the result
-    echo $result;
-} catch (Exception $e) {
+    require_once("BDConexion.php");
 
-    echo $e->getMessage();
-}
+    try {
+        if (isset($_GET["nombre"]) && isset($_GET["apellido"]) && isset($_GET["edad"]) && isset($_GET["correo"])) {
+
+            // Crear sesión
+            $session = new Session();
+            // Abrir la base de datos
+            $session->execute("open pruebareto");
+            // Cargar la consulta XQuery desde el archivo
+            $rutaXq = "query.xq";
+            $fichero = fopen($rutaXq, "r");
+            $xq = fread($fichero, filesize($rutaXq));
+            fclose($fichero);
+            // Ejecutar la consulta con el parámetro "codigo"
+            $query = $session->query($xq);
+            // Vincular el valor del parámetro "codigo" a la consulta XQuery
+            $query->bind('$nombre', $_GET["nombre"]);
+            $query->bind('$apellido', $_GET["apellido"]);
+            $query->bind('$edad', $_GET["edad"]);
+            $query->bind('$correo', $_GET["correo"]);
+            // Ejecutar la consulta
+            $result = $query->execute();
+
+            $rutaXq = "consulta.xq";
+            $fichero = fopen($rutaXq, "r");
+            $xq = fread($fichero, filesize($rutaXq));
+            fclose($fichero);
+            // Ejecutar la consulta con el parámetro "codigo"
+            $query = $session->query($xq);
+            $result = $query->execute();
+            // Cerrar la consulta y la sesión
+            $query->close();
+            $session->close();
+
+            $xml = new DOMDocument;
+            $xml->loadXML($result);
+            $xsl = new DOMDocument;
+            $xsl->load('../transform/data.xsl');
+
+            $proc = new XSLTProcessor;
+
+            $proc->importStyleSheet($xsl);
+
+            echo $proc->transformToXML($xml);
+        } else {
+            // Si no se proporciona el parámetro "codigo", mostrar un mensaje de error
+            echo "Por favor, proporcione un código.";
+        }
+    } catch (Exception $e) {
+        // Manejar cualquier excepción que ocurra durante la ejecución
+        echo $e->getMessage();
+    }
+    ?>
+
+
+</body>
+
+</html>

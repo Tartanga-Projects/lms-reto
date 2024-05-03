@@ -24,7 +24,6 @@
                     <xsl:apply-templates select="//datos"/>
                 </tbody>
             </table>
-            
         </html>
     </xsl:template>
 </xsl:stylesheet>
