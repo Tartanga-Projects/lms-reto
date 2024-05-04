@@ -1,4 +1,8 @@
 <!DOCTYPE html>
+<!-- ARCHIVO DE EJEMPLO CON MODIFICACION FUNCIONAL NO BORRAR, SIRVE DE EJEMPLO, ES FUNCIONAL
+REALIZA LA ACTUALIZACION Y MUESTRA EN UNA TABLA, USANDO EL HTML DE AQUI MISMO, PARA QUE 
+FUNCIONE HAY QUE PONER LA BASE DE DATOS BIEN Y COMPROBAR QUE EL BDsetup.ini ESTA BIEN CONFIGURADO
+CON TUS CREDENCIALES DE BASEX -->
 <html>
 
 <head>
@@ -37,7 +41,7 @@
             // Abrir la base de datos
             $session->execute("open PruebaReto");
             // Cargar la consulta XQuery desde el archivo
-            $rutaXq = "query.xq";
+            $rutaXq = "modificacion.xq";
             $fichero = fopen($rutaXq, "r");
             $xq = fread($fichero, filesize($rutaXq));
             fclose($fichero);
@@ -62,35 +66,17 @@
             $query->close();
             $session->close();
 
-            if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-                //$rutaArchivoXml = $GLOBALS['xmlmodificado'];
-                $rutaArchivoXslt = "../transform/data.xsl";
+            $xml = new DOMDocument;
+            $xml->loadXML($result);
             
-                $xml = new DOMDocument();
-                $xml->load($result);
-            
-                if (file_exists($rutaArchivoXslt)) {
-                    $xsl = new DOMDocument();
-                    $xsl->load($rutaArchivoXslt);
-            
-                    $proc = new XSLTProcessor();
-                    $proc->importStylesheet($xsl);
-                    $html = $proc->transformToXml($xml);
-            
-                    echo $html;
-                }
-            }
-            // $xml = new DOMDocument;
-            // $xml->loadXML($result);
-            
-            // $xsl = new DOMDocument;
-            // $xsl->load('../transform/data.xsl');
+            $xsl = new DOMDocument;
+            $xsl->load('../transform/data.xsl');
 
-            // $proc = new XSLTProcessor;
+            $proc = new XSLTProcessor;
 
-            // $proc->importStyleSheet($xsl);
+            $proc->importStyleSheet($xsl);
 
-            // echo $proc->transformToXML($xml);
+            echo $proc->transformToXML($xml);
         } else {
             // Si no se proporciona el parámetro "codigo", mostrar un mensaje de error
             echo "Por favor, proporcione un código.";

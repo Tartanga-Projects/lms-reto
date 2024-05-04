@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
         echo $html;
     }
-}else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+} else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['action'])) {
         $action = $_POST['action'];
 
@@ -24,10 +24,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 altaDato();
                 break;
             case 'modificar':
+                modificar();
+                break;
+            case 'modificarDato':
                 modificarDato();
                 break;
             case 'eliminar':
-                //eliminarDato();
+                eliminar();
                 break;
             default:
                 echo 'Papi anda perdido';
@@ -39,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
 function modificar()
 {
-    //Faltan las variables
+    //Faltan las variables de entrada
     try {
         if (isset($_GET["nombre"]) && isset($_GET["apellido"]) && isset($_GET["edad"]) && isset($_GET["correo"])) {
 
@@ -48,7 +51,7 @@ function modificar()
             // Abrir la base de datos
             $session->execute("open PruebaReto");
             // Cargar la consulta XQuery desde el archivo
-            $rutaXq = "query.xq";
+            $rutaXq = "modificacion.xq";
             $fichero = fopen($rutaXq, "r");
             $xq = fread($fichero, filesize($rutaXq));
             fclose($fichero);
@@ -62,21 +65,51 @@ function modificar()
             // Ejecutar la consulta
             $result = $query->execute();
 
-            $rutaXq = "consulta.xq";
-            $fichero = fopen($rutaXq, "r");
-            $xq = fread($fichero, filesize($rutaXq));
-            fclose($fichero);
-            // Ejecutar la consulta con el parámetro "codigo"
-            $query = $session->query($xq);
-            $result = $query->execute();
-            // Cerrar la consulta y la sesión
+            // $rutaXq = "consulta.xq";
+            // $fichero = fopen($rutaXq, "r");
+            // $xq = fread($fichero, filesize($rutaXq));
+            // fclose($fichero);
+            // // Ejecutar la consulta con el parámetro "codigo"
+            // $query = $session->query($xq);
+            // $result = $query->execute();
+            // // Cerrar la consulta y la sesión
             $query->close();
             $session->close();
 
-            $xml = new DOMDocument;
-            $xml->loadXML($result);
+            //Modifica a nivel local
+            $cargarXml = "../DB/data.xml";
+            if (!file_exists($cargarXml)) {
+                exit;
+            }
+            $xml = simplexml_load_file($cargarXml);
+            if ($xml === false) {
+                echo 'Error al cargar el archivo XML.';
+                exit;
+            }
 
-            return $xml;
+            $nombreModificar=$_GET["nombre"];
+
+            foreach ($xml->dato as $dato) {
+                // Verificar si el nombre del elemento 'dato' coincide con el nombre a modificar
+                if ((string) $dato->nombre === $nombreModificar) {
+                    // Actualizar los datos del elemento 'dato'
+                    $dato->nombre = $_GET["nombre"];
+                    $dato->apellido = $_GET["apellido"];
+                    $dato->edad = $_GET["edad"];
+                    $dato->correo = $_GET["correo"];
+                    // Guardar los cambios en el archivo XML
+                    $xml->asXML($cargarXml);
+                    // Mostrar mensaje de éxito
+                    echo "Los datos fueron actualizados correctamente.";
+                    // Terminar el bucle
+                    break;
+                }
+            }
+
+            // $xml = new DOMDocument;
+            // $xml->loadXML($result);
+
+            // return $xml;
 
             // $xsl = new DOMDocument;
             // $xsl->load('../transform/data.xsl');
@@ -93,6 +126,33 @@ function modificar()
     } catch (Exception $e) {
         // Manejar cualquier excepción que ocurra durante la ejecución
         echo $e->getMessage();
+    }
+}
+
+//Modificar para que obtenga el xml de la consulta xquery, lo hare sin JSON
+function modificarDato()
+{
+    if (isset($_POST['Valor'])) {
+        $cargarXml = "../DB/data.xml";
+        $nombreMod = $_POST['Valor'];
+        $xml = simplexml_load_file($cargarXml);
+        $resultado = $xml->xpath("//dato[nombre='$nombreMod']");
+        if ($resultado) {
+            // Convertir el resultado a un array asociativo
+            $data = [
+                'nombre' => (string) $resultado[0]->nombre,
+                'apellido' => (string) $resultado[0]->apellido,
+                'edad' => (string) $resultado[0]->edad,
+                'correo' => (string) $resultado[0]->correo
+            ];
+            // Devolver los datos como JSON
+            echo json_encode($data);
+        } else {
+            // Si no se encontró el dato, devolver un mensaje de error
+            echo json_encode(['error' => 'No se encontró ningún dato para el nombre proporcionado.']);
+        }
+    } else {
+        echo json_encode(['error' => 'No se recibieron todos los campos del formulario.']);
     }
 }
 
@@ -117,6 +177,7 @@ function consultar()
 
         $xml = new DOMDocument;
         $xml->loadXML($result);
+
         return $xml;
 
         // 
@@ -133,4 +194,8 @@ function consultar()
         // Manejar cualquier excepción que ocurra durante la ejecución
         echo $e->getMessage();
     }
+}
+
+function eliminar()
+{
 }

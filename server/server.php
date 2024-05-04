@@ -1,4 +1,5 @@
 <?php
+//ARCHIVO DEPRECADO SIRVE DE EJEMPLO - NO BORRAR AUN....
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     //$rutaArchivoXml = $GLOBALS['xmlmodificado'];
     $rutaArchivoXslt = "../transform/data.xsl";
