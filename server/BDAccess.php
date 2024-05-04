@@ -27,7 +27,6 @@
     </form><br />
 
     <?php
-
     require_once("BDConexion.php");
 
     try {
@@ -36,7 +35,7 @@
             // Crear sesión
             $session = new Session();
             // Abrir la base de datos
-            $session->execute("open pruebareto");
+            $session->execute("open PruebaReto");
             // Cargar la consulta XQuery desde el archivo
             $rutaXq = "query.xq";
             $fichero = fopen($rutaXq, "r");
@@ -63,16 +62,35 @@
             $query->close();
             $session->close();
 
-            $xml = new DOMDocument;
-            $xml->loadXML($result);
-            $xsl = new DOMDocument;
-            $xsl->load('../transform/data.xsl');
+            if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+                //$rutaArchivoXml = $GLOBALS['xmlmodificado'];
+                $rutaArchivoXslt = "../transform/data.xsl";
+            
+                $xml = new DOMDocument();
+                $xml->load($result);
+            
+                if (file_exists($rutaArchivoXslt)) {
+                    $xsl = new DOMDocument();
+                    $xsl->load($rutaArchivoXslt);
+            
+                    $proc = new XSLTProcessor();
+                    $proc->importStylesheet($xsl);
+                    $html = $proc->transformToXml($xml);
+            
+                    echo $html;
+                }
+            }
+            // $xml = new DOMDocument;
+            // $xml->loadXML($result);
+            
+            // $xsl = new DOMDocument;
+            // $xsl->load('../transform/data.xsl');
 
-            $proc = new XSLTProcessor;
+            // $proc = new XSLTProcessor;
 
-            $proc->importStyleSheet($xsl);
+            // $proc->importStyleSheet($xsl);
 
-            echo $proc->transformToXML($xml);
+            // echo $proc->transformToXML($xml);
         } else {
             // Si no se proporciona el parámetro "codigo", mostrar un mensaje de error
             echo "Por favor, proporcione un código.";
