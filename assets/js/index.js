@@ -26,11 +26,11 @@ guardado.addEventListener('click', (event) => {
     xhr.open('POST', 'http://localhost/lms-reto/server/BDAccess copy.php', true);
 
     let formData = new FormData();
-    formData.append('Nombre', nombreF);
-    formData.append('Apellido', apellidoF);
-    formData.append('Edad', edadF);
-    formData.append('Correo', correoF);
-
+    formData.append('Nombre', nombre);
+    formData.append('Apellido', apellido);
+    formData.append('Edad', edad );
+    formData.append('Correo', correo);
+    console.log(nombre,apellido,edad,correo)
     if (botonModificarClicado) {
         //Va el metodo de enviar para modificar
         modificar(xhr,formData);
@@ -58,13 +58,24 @@ function eliminar(xhr,formData) {
     formData.append('action', 'eliminar');
     envioFormulario(xhr,formData);
 }
-//Hay que cambiar a que lo coga con el de consulta de xquery
+
 modificarB.addEventListener('click', (event) => {
     event.preventDefault();
-    let valor = prompt("Introduce un nombre que quieras modificar: ");
+    let mod = 'modificar'
+    rellenarFormulario(mod)
+})
+
+eliminarB.addEventListener('click', (event) => {
+    event.preventDefault();
+    let mod = 'eliminar'
+    rellenarFormulario(mod)
+})
+
+function rellenarFormulario(mod){
+    let valor = prompt("Introduce un nombre que quieras %s : ",mod);
     let formData = new FormData();
     formData.append('Valor', valor);
-    formData.append('action', 'modificarDato');
+    formData.append('action', 'obtenerDatos');
     if (valor !== null) {
         fetch('http://localhost/lms-reto/server/BDAccess copy.php', {
             method: 'POST',
@@ -76,7 +87,12 @@ modificarB.addEventListener('click', (event) => {
                 document.getElementById('Apellido').value = data.apellido;
                 document.getElementById('Edad').value = data.edad;
                 document.getElementById('Correo').value = data.correo;
-                botonModificarClicado = true
+                if(mod === "modificar"){
+                    botonModificarClicado = true
+                }else{
+                    botonEliminarClicado = true
+                }
+                
             })
             .catch(error => {
                 console.error('Error: ', error);
@@ -84,7 +100,7 @@ modificarB.addEventListener('click', (event) => {
     } else {
         console.log('el usuario cancela');
     }
-})
+}
 
 //Borrado de datos del formulario
 function borrado() {
