@@ -1,1 +1,15 @@
 GET http://localhost/lms-reto/server/server.php
+
+###
+
+GET http://localhost/lms-reto/server/BDAccess copy.php
+
+###
+
+GET http://localhost/lms-reto/server/BDAccess.php
+
+###
+
+GET http://localhost/lms-reto/server/BDAccess copy.php/consultar()
+
+###

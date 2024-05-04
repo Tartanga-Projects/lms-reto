@@ -1,22 +1,21 @@
 <?php
+//ARCHIVO DEPRECADO SIRVE DE EJEMPLO - NO BORRAR AUN....
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    $rutaArchivoXml = "../DB/data.xml";
+    //$rutaArchivoXml = $GLOBALS['xmlmodificado'];
     $rutaArchivoXslt = "../transform/data.xsl";
 
-    if (file_exists($rutaArchivoXml)) {
-        $xml = new DOMDocument();
-        $xml->load($rutaArchivoXml);
+    $xml = new DOMDocument();
+    $xml->load($variable_resultado);
 
-        if (file_exists($rutaArchivoXslt)) {
-            $xsl = new DOMDocument();
-            $xsl->load($rutaArchivoXslt);
+    if (file_exists($rutaArchivoXslt)) {
+        $xsl = new DOMDocument();
+        $xsl->load($rutaArchivoXslt);
 
-            $proc = new XSLTProcessor();
-            $proc->importStylesheet($xsl);
-            $html = $proc->transformToXml($xml);
+        $proc = new XSLTProcessor();
+        $proc->importStylesheet($xsl);
+        $html = $proc->transformToXml($xml);
 
-            echo $html;
-        }
+        echo $html;
     }
 } else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['action'])) {

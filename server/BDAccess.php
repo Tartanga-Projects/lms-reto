@@ -1,4 +1,8 @@
 <!DOCTYPE html>
+<!-- ARCHIVO DE EJEMPLO CON MODIFICACION FUNCIONAL NO BORRAR, SIRVE DE EJEMPLO, ES FUNCIONAL
+REALIZA LA ACTUALIZACION Y MUESTRA EN UNA TABLA, USANDO EL HTML DE AQUI MISMO, PARA QUE 
+FUNCIONE HAY QUE PONER LA BASE DE DATOS BIEN Y COMPROBAR QUE EL BDsetup.ini ESTA BIEN CONFIGURADO
+CON TUS CREDENCIALES DE BASEX -->
 <html>
 
 <head>
@@ -27,7 +31,6 @@
     </form><br />
 
     <?php
-
     require_once("BDConexion.php");
 
     try {
@@ -36,9 +39,9 @@
             // Crear sesión
             $session = new Session();
             // Abrir la base de datos
-            $session->execute("open pruebareto");
+            $session->execute("open PruebaReto");
             // Cargar la consulta XQuery desde el archivo
-            $rutaXq = "query.xq";
+            $rutaXq = "modificacion.xq";
             $fichero = fopen($rutaXq, "r");
             $xq = fread($fichero, filesize($rutaXq));
             fclose($fichero);
@@ -65,6 +68,7 @@
 
             $xml = new DOMDocument;
             $xml->loadXML($result);
+            
             $xsl = new DOMDocument;
             $xsl->load('../transform/data.xsl');
 
