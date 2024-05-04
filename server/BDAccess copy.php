@@ -127,7 +127,7 @@ function modificar()
 {
     //Faltan las variables de entrada
     try {
-        if (isset($_GET["nombre"]) && isset($_GET["apellido"]) && isset($_GET["edad"]) && isset($_GET["correo"])) {
+        if (isset($_POST['Nombre']) && isset($_POST['Apellido']) && isset($_POST['Edad']) && isset($_POST['Correo'])) {
 
             // Crear sesión
             $session = new Session();
@@ -141,10 +141,10 @@ function modificar()
             // Ejecutar la consulta con el parámetro "codigo"
             $query = $session->query($xq);
             // Vincular el valor del parámetro "codigo" a la consulta XQuery
-            $query->bind('$nombre', $_GET["nombre"]);
-            $query->bind('$apellido', $_GET["apellido"]);
-            $query->bind('$edad', $_GET["edad"]);
-            $query->bind('$correo', $_GET["correo"]);
+            $query->bind('$nombre', $_POST['Nombre']);
+            $query->bind('$apellido', $_POST['Apellido']);
+            $query->bind('$edad', $_POST['Edad']);
+            $query->bind('$correo', $_POST['Correo']);
             // Ejecutar la consulta
             $result = $query->execute();
 
@@ -170,16 +170,16 @@ function modificar()
                 exit;
             }
 
-            $nombreModificar = $_GET["nombre"];
+            $nombreModificar = $_POST['Nombre'];
 
             foreach ($xml->dato as $dato) {
                 // Verificar si el nombre del elemento 'dato' coincide con el nombre a modificar
                 if ((string) $dato->nombre === $nombreModificar) {
                     // Actualizar los datos del elemento 'dato'
-                    $dato->nombre = $_GET["nombre"];
-                    $dato->apellido = $_GET["apellido"];
-                    $dato->edad = $_GET["edad"];
-                    $dato->correo = $_GET["correo"];
+                    $dato->nombre = $_POST['Nombre'];
+                    $dato->apellido = $_POST['Apellido'];
+                    $dato->edad = $_POST['Edad'];
+                    $dato->correo = $_POST['Correo'];
                     // Guardar los cambios en el archivo XML
                     $xml->asXML($cargarXml);
                     // Mostrar mensaje de éxito
@@ -283,7 +283,7 @@ function eliminar()
 {
     //Faltan las variables de entrada
     try {
-        if (isset($_GET["nombre"])) {
+        if (isset($_POST['Nombre'])) {
 
             // Crear sesión
             $session = new Session();
@@ -297,7 +297,7 @@ function eliminar()
             // Ejecutar la consulta con el parámetro "codigo"
             $query = $session->query($xq);
             // Vincular el valor del parámetro "codigo" a la consulta XQuery
-            $query->bind('$nombre', $_GET["nombre"]);
+            $query->bind('$nombre', $_POST['Nombre']);
             // Ejecutar la consulta
             $result = $query->execute();
 
@@ -323,7 +323,7 @@ function eliminar()
                 exit;
             }
 
-            $nombreEliminar = $_GET["nombre"];
+            $nombreEliminar = $_POST['Nombre'];
 
             $nodesToDelete = $xml->xpath("//dato[nombre = '$nombreEliminar']");
 
