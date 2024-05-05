@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- <?xml-model href="dataschema.xsd" type="application/xml"
+schematypens="http://www.w3.org/2001/XMLSchema"?> -->
+<datos>
+    <dato>
+        <nombre>Juan</nombre>
+        <apellido>Pérez</apellido>
+        <edad>45</edad>
+        <correo>juan@example.com</correo>
+    </dato>
+    <dato>
+        <nombre>Maria</nombre>
+        <apellido>Gómez</apellido>
+        <edad>25</edad>
+        <correo>maria@example.com</correo>
+    </dato>
+    <dato>
+        <nombre>Carlos</nombre>
+        <apellido>Rodríguez</apellido>
+        <edad>40</edad>
+        <correo>carlos@example.com</correo>
+    </dato>
+    <dato>
+        <nombre>Javier</nombre>
+        <apellido>Martinez</apellido>
+        <edad>45</edad>
+        <correo>correo@correo.com</correo>
+    </dato>
+<dato><nombre>Pepito</nombre><apellido>Martinez</apellido><edad>34</edad><correo>dshdds@gmas.com</correo></dato></datos>

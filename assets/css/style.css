@@ -1,0 +1,41 @@
+:root {
+    color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: light) {
+
+    thead,
+    tbody,
+    td {
+        border-collapse: collapse;
+        border: 1px solid black;
+    }
+
+    td {
+        padding: 8px;
+        text-align: center;
+    }
+
+    input {
+        color: black;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+
+    thead,
+    tbody,
+    td {
+        border-collapse: collapse;
+        border: 1px solid white;
+    }
+
+    td {
+        padding: 8px;
+        text-align: center;
+    }
+
+    input {
+        color: white;
+    }
+}
