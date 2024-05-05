@@ -72,7 +72,7 @@ eliminarB.addEventListener('click', (event) => {
 })
 
 function rellenarFormulario(mod){
-    let valor = prompt("Introduce un nombre que quieras %s : ",mod);
+    let valor = prompt(`Introduce un nombre que quieras ${mod}:`);
     let formData = new FormData();
     formData.append('Valor', valor);
     formData.append('action', 'obtenerDatos');
