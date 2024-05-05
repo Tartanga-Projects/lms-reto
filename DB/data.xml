@@ -5,7 +5,7 @@ schematypens="http://www.w3.org/2001/XMLSchema"?> -->
     <dato>
         <nombre>Juan</nombre>
         <apellido>Pérez</apellido>
-        <edad>30</edad>
+        <edad>45</edad>
         <correo>juan@example.com</correo>
     </dato>
     <dato>
@@ -26,4 +26,4 @@ schematypens="http://www.w3.org/2001/XMLSchema"?> -->
         <edad>45</edad>
         <correo>correo@correo.com</correo>
     </dato>
-</datos>
+<dato><nombre>Pepito</nombre><apellido>Martinez</apellido><edad>34</edad><correo>dshdds@gmas.com</correo></dato></datos>

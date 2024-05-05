@@ -6,10 +6,10 @@ declare variable $correo as xs:string external;
 
 declare variable $newDato := 
   <dato>
-    <nombre>$nombre</nombre>
-    <apellido>$apellido</apellido>
-    <edad>$edad</edad>
-    <correo>$correo</correo>
+    <nombre>{$nombre}</nombre>
+    <apellido>{$apellido}</apellido>
+    <edad>{$edad}</edad>
+    <correo>{$correo}</correo>
   </dato>;
 
 let $lastDato := //dato[last()]
